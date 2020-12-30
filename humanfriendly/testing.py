@@ -31,9 +31,9 @@ import sys
 import tempfile
 import time
 import unittest
+from io import StringIO
 
 # Modules included in our package.
-from humanfriendly.compat import StringIO
 from humanfriendly.text import random_string
 
 # Initialize a logger for this module.
@@ -549,7 +549,7 @@ class CaptureOutput(ContextManager):
 
     .. attribute:: stdin
 
-       The :class:`~humanfriendly.compat.StringIO` object used to feed the standard input stream.
+       The :class:`~python3:io.StringIO` object used to feed the standard input stream.
 
     .. attribute:: stdout
 

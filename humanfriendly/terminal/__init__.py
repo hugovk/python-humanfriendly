@@ -29,6 +29,7 @@ import platform
 import re
 import subprocess
 import sys
+from shutil import which
 
 # The `fcntl' module is platform specific so importing it may give an error. We
 # hide this implementation detail from callers by handling the import error and
@@ -42,7 +43,7 @@ except ImportError:
     HAVE_IOCTL = False
 
 # Modules included in our package.
-from humanfriendly.compat import coerce_string, is_unicode, on_windows, which
+from humanfriendly.compat import on_windows
 from humanfriendly.decorators import cached
 from humanfriendly.deprecation import define_aliases
 from humanfriendly.text import concatenate, format
@@ -629,7 +630,7 @@ def message(text, *args, **kw):
     the resulting string (followed by a newline) to :data:`sys.stderr` using
     :func:`auto_encode()`.
     """
-    auto_encode(sys.stderr, coerce_string(text) + '\n', *args, **kw)
+    auto_encode(sys.stderr, str(text) + '\n', *args, **kw)
 
 
 def output(text, *args, **kw):
@@ -643,7 +644,7 @@ def output(text, *args, **kw):
     the resulting string (followed by a newline) to :data:`sys.stdout` using
     :func:`auto_encode()`.
     """
-    auto_encode(sys.stdout, coerce_string(text) + '\n', *args, **kw)
+    auto_encode(sys.stdout, str(text) + '\n', *args, **kw)
 
 
 def readline_strip(expr):
@@ -692,7 +693,7 @@ def show_pager(formatted_text, encoding=DEFAULT_ENCODING):
         command_line = get_pager_command(formatted_text)
         if which(command_line[0]):
             pager = subprocess.Popen(command_line, stdin=subprocess.PIPE)
-            if is_unicode(formatted_text):
+            if isinstance(formatted_text, str):
                 formatted_text = formatted_text.encode(encoding)
             pager.communicate(input=formatted_text)
             return
@@ -756,7 +757,7 @@ def warning(text, *args, **kw):
     :func:`ansi_wrap()` is used to color the message in a red font (to make
     the warning stand out from surrounding text).
     """
-    text = coerce_string(text)
+    text = str(text)
     if terminal_supports_colors(sys.stderr):
         text = ansi_wrap(text, color='red')
     auto_encode(sys.stderr, text + '\n', *args, **kw)

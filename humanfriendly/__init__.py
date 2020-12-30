@@ -17,7 +17,6 @@ import re
 import time
 
 # Modules included in our package.
-from humanfriendly.compat import is_string
 from humanfriendly.deprecation import define_aliases
 from humanfriendly.text import concatenate, format, pluralize, tokenize
 
@@ -103,7 +102,7 @@ def coerce_boolean(value):
     :raises: :exc:`exceptions.ValueError` when the value is a string but
              cannot be coerced with certainty.
     """
-    if is_string(value):
+    if isinstance(value, str):
         normalized = value.strip().lower()
         if normalized in ('1', 'yes', 'true', 'on'):
             return True
@@ -127,7 +126,7 @@ def coerce_pattern(value, flags=0):
     :raises: :exc:`~exceptions.ValueError` when `value` isn't a string
              and also isn't a compiled regular expression.
     """
-    if is_string(value):
+    if isinstance(value, str):
         value = re.compile(value, flags)
     else:
         empty_pattern = re.compile('')
@@ -232,7 +231,7 @@ def parse_size(size, binary=False):
     tokens = tokenize(size)
     if tokens and isinstance(tokens[0], numbers.Number):
         # Get the normalized unit (if any) from the tokenized input.
-        normalized_unit = tokens[1].lower() if len(tokens) == 2 and is_string(tokens[1]) else ''
+        normalized_unit = tokens[1].lower() if len(tokens) == 2 and isinstance(tokens[1], str) else ''
         # If the input contains only a number, it's assumed to be the number of
         # bytes. The second token can also explicitly reference the unit bytes.
         if len(tokens) == 1 or normalized_unit.startswith('b'):
@@ -317,7 +316,7 @@ def parse_length(length):
         if len(tokens) == 1:
             return tokens[0]
         # Otherwise we expect to find two tokens: A number and a unit.
-        if len(tokens) == 2 and is_string(tokens[1]):
+        if len(tokens) == 2 and isinstance(tokens[1], str):
             normalized_unit = tokens[1].lower()
             # Try to match the first letter of the unit.
             for unit in length_size_units:
@@ -508,7 +507,7 @@ def parse_timespan(timespan):
         if len(tokens) == 1:
             return float(tokens[0])
         # Otherwise we expect to find two tokens: A number and a unit.
-        if len(tokens) == 2 and is_string(tokens[1]):
+        if len(tokens) == 2 and isinstance(tokens[1], str):
             normalized_unit = tokens[1].lower()
             for unit in time_units:
                 if (normalized_unit == unit['singular'] or

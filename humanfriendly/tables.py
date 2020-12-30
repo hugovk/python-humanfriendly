@@ -28,7 +28,6 @@ import collections
 import re
 
 # Modules included in our package.
-from humanfriendly.compat import coerce_string
 from humanfriendly.terminal import (
     ansi_strip,
     ansi_width,
@@ -330,7 +329,7 @@ def format_rst_table(data, column_names=None):
 def normalize_columns(row, expandtabs=False):
     results = []
     for value in row:
-        text = coerce_string(value)
+        text = str(value)
         if expandtabs:
             text = text.expandtabs()
         results.append(text)

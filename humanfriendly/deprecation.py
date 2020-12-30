@@ -187,14 +187,8 @@ def deprecated_args(*names):
 
 def is_method(function):
     """Check if the expected usage of the given function is as an instance method."""
-    try:
-        # Python 3.3 and newer.
-        signature = inspect.signature(function)
-        return "self" in signature.parameters
-    except AttributeError:
-        # Python 3.2 and older.
-        metadata = inspect.getargspec(function)
-        return "self" in metadata.args
+    signature = inspect.signature(function)
+    return "self" in signature.parameters
 
 
 class DeprecationProxy(types.ModuleType):

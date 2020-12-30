@@ -46,8 +46,6 @@ def get_install_requires():
     """Get the conditional dependencies for source distributions."""
     install_requires = []
     if 'bdist_wheel' not in sys.argv:
-        if sys.version_info.major == 2:
-            install_requires.append('monotonic')
         if sys.platform == 'win32':
             install_requires.append('pyreadline')
     return sorted(install_requires)
@@ -57,11 +55,6 @@ def get_extras_require():
     """Get the conditional dependencies for wheel distributions."""
     extras_require = {}
     if have_environment_marker_support():
-        # Conditional `monotonic' dependency.
-        expression = ':%s' % ' or '.join([
-            'python_version == "2.7"',
-        ])
-        extras_require[expression] = ['monotonic']
         # Conditional `pyreadline' dependency.
         expression = ':sys_platform == "win32"'
         extras_require[expression] = 'pyreadline'

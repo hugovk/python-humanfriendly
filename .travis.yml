@@ -6,6 +6,7 @@ matrix:
     language: generic
   - python: pypy
 install:
+  - scripts/travis.sh pip install --upgrade pip
   - scripts/travis.sh pip install --upgrade setuptools
   - scripts/travis.sh pip install --upgrade --requirement=requirements-travis.txt
   - scripts/travis.sh LC_ALL=C pip install .

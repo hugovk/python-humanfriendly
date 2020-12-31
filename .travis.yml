@@ -2,8 +2,6 @@ language: python
 cache: pip
 matrix:
   include:
-  - os: osx
-    language: generic
   - python: pypy
 install:
   - scripts/travis.sh pip install --upgrade pip

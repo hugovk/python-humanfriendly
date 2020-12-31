@@ -42,7 +42,7 @@ jobs:
           python -m pip install -U pip
           python -m pip install -U setuptools
           python -m pip install -U --requirement=requirements-travis.txt
-          LC_ALL=C python -m pip install .
+          python -m pip install .
 
       - name: Tests
         run: |
